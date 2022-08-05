@@ -9,11 +9,13 @@ export const Form = () => {
   const { info, setinfo } = useContext(Survey);
   const { validate, setvalidate } = useContext(Validate);
   const [sent,setsent]=useState('notsent')
+  const headers = {
+    'Access-Control-Allow-Origin':  '*'
+};
   const handlesubmit = (event) => {
     event.preventDefault();
-
     axios
-      .post("http://localhost:4000/survey", {
+      .post("http://localhost:4000", {
         name: info.name,
         country: info.country,
         email: info.email,
