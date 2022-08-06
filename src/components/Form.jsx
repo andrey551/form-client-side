@@ -5,6 +5,7 @@ import { genres } from "../data/genres";
 import { GenreSection } from "./GenreSection";
 import { Validate } from "../context/Validate";
 import axios from "axios";
+import Report from "./Report";
 export const Form = () => {
   const { info, setinfo } = useContext(Survey);
   const { validate, setvalidate } = useContext(Validate);
@@ -15,7 +16,7 @@ export const Form = () => {
   const handlesubmit = (event) => {
     event.preventDefault();
     axios
-      .post("http://localhost:4000", {
+      .post("http://localhost:4000/survey", {
         name: info.name,
         country: info.country,
         email: info.email,
@@ -63,7 +64,24 @@ export const Form = () => {
         />
         {sent=='sent'?<p className="mt-5 mb-5 italic text-l ">the survey is sent thank you for your participation :)</p>:sent=='error'&&<p className="mb-10 italic text-red-500 text-l">there was an error sending the form please retry</p>}
         </div>
+
+      {/* Fetch collection data from server */}
+      <div className="flex item-center gap-10">
+        <button onClick={()=>{
+          fetch("POST","http://localhost:4000/getCollection")
+          .then(function(response) {
+            Report(response);
+          })
+          .then(function(err) {
+            setsent("error!");
+          }) 
+        }}
+        className="h-12 px-4 py-2 font-semibold bg-transparent border rounded w-28 hover:bg-button text-txt hover:text-white border-txt hover:border-transparent hover:cursor-pointer"> Get
+        </button>
+        </div>  
       </form>
     </div>
   );
 };
+// Caution: This form send unstable data at rate array , sometime with 18 Element, sometime with 27, but it should be 9  
+// Because of some setup issues, I can't setup environment to deploy this Backend side  

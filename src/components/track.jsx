@@ -7,7 +7,7 @@ const track = ({ track, id,genre,info,setinfo }) => {
   const { validate, setvalidate } = useContext(Validate);
 
   
-  if(validate  ){
+  if(validate){
     const ratings={genre:genre,track_id:id,rating:rating}
     let survey=info
     survey.ratings.push(ratings)
