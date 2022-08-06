@@ -1,9 +1,26 @@
-import React from 'react'
+import React, {useState, userEffect} from 'react'
 
 export const Audio = (props) => {
+  const [audioSource, setAudioSource] = useState({})
+
+  //  Dynamic load audio
+  userEffect(() => {
+    async function importFile() {
+      const file = await import(
+        `../resources/nirvana.mp3`
+      );
+      setSoundFile(file.default); 
+    }
+    importFile();
+  },[])
   return (
     <div>
-      <audio controls ><source src={props.track}/></audio>
+      <AudioPlayer
+        className="audio-player"
+        style={{ direction: 'ltr' }}
+        showJumpControls={false}
+        autoPlay
+        src={soundFile}/>
     </div>
   )
 }
